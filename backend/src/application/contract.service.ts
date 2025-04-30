@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ContractRepository } from '../domain/contract.repository.interface';
 import { Contract } from '../domain/contract.entity';
+import { CreateContractDto } from '../contract/dto/create-contract.dto';
 
 @Injectable()
 export class ContractService {
@@ -13,7 +14,8 @@ export class ContractService {
     return this.repository.findAll();
   }
 
-  addContract(name: string, premiumAmount: number): Promise<Contract> {
-    return this.repository.create(name, premiumAmount);
+  addContract(dto: CreateContractDto): Promise<Contract> {
+    const { name, premiumAmount, startDate, endDate } = dto;
+    return this.repository.create(name, premiumAmount, new Date(startDate), new Date(endDate));
   }
 }

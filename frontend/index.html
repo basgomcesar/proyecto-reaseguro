@@ -20,12 +20,18 @@
 
       <section class="form-container">
         <h2>Agregar Contrato</h2>
-        <form id="add-contract-form">
+        <form id="contract-form">
           <label for="contract-name">Nombre del Contrato:</label>
           <input type="text" id="contract-name" required />
 
           <label for="premium-amount">Monto de prima:</label>
           <input type="number" id="premium-amount" required />
+
+          <label for="start-date">Fecha de inicio:</label>
+          <input type="date" id="start-date" required />
+
+          <label for="end-date">Fecha de fin:</label>
+          <input type="date" id="end-date" required />
 
           <button type="submit" id="add-contract">Agregar</button>
         </form>

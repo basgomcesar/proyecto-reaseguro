@@ -16,6 +16,6 @@ export class ContractController {
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   create(@Body() body: CreateContractDto) {
-    return this.service.addContract(body.name, body.premiumAmount);
+    return this.service.addContract(body);
   }
 }

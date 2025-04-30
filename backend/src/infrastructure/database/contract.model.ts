@@ -13,4 +13,10 @@ export class ContractModel extends Model {
 
   @Column({ type: DataType.DECIMAL(10, 2), allowNull: false, field: 'premium_amount' })
   declare premiumAmount: number;
+
+  @Column({ type: DataType.DATE, allowNull: false, field: 'start_date' })
+  declare startDate: Date;
+
+  @Column({ type: DataType.DATE, allowNull: false, field: 'end_date' })
+  declare endDate: Date;
 }
