@@ -1,35 +1,34 @@
-import { ContractService } from "../backend/contracts.js";
+import { renderContracts } from "./ui/renderContracts.js";
+import { createContract } from "./services/contractService.js";
 
-const listEl = document.getElementById("contract-list");
-const nameInput = document.getElementById("contract-name");
-const amountInput = document.getElementById("premium-amount");
-const addBtn = document.getElementById("add-contract");
+document.addEventListener("DOMContentLoaded", () => {
+  const listEl = document.getElementById("contract-list");
+  const nameInput = document.getElementById("contract-name");
+  const amountInput = document.getElementById("premium-amount");
+  const addBtn = document.getElementById("add-contract");
 
-const service = new ContractService();
+  async function handleAddContract() {
+    const name = nameInput.value.trim();
+    const premium = parseFloat(amountInput.value);
 
-function renderContracts() {
-  listEl.innerHTML = "";
-  service.getContracts().forEach((c) => {
-    const li = document.createElement("li");
-    const nameEl = document.createElement("h3");
-    nameEl.textContent = c.name;
-    const premiumEl = document.createElement("span");
-    premiumEl.textContent = `$${c.premium}`;
-    li.appendChild(nameEl);
-    li.appendChild(premiumEl);
-    listEl.appendChild(li);
-  });
-}
+    if (!name || isNaN(premium)) {
+      alert("Por favor, introduce datos válidos.");
+      return;
+    }
 
-addBtn.addEventListener("click", () => {
-  const name = nameInput.value;
-  const premium = parseFloat(amountInput.value);
-  if (name && premium) {
-    service.addContract(name, premium);
-    renderContracts();
-    nameInput.value = "";
-    amountInput.value = "";
+    try {
+      await createContract({ name, premiumAmount: premium });
+      await renderContracts(listEl);
+
+      nameInput.value = "";
+      amountInput.value = "";
+    } catch (error) {
+      console.error("Error creating contract:", error);
+      alert("Error al crear el contrato. Por favor, inténtalo de nuevo.");
+    }
   }
-});
 
-renderContracts();
+  addBtn.addEventListener("click", handleAddContract);
+
+  renderContracts(listEl);
+});
